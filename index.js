@@ -51,12 +51,16 @@ async function run(){
         // all user order post
         app.post('/user/order',async(req,res)=>{
             console.log(req.body)
-            const result= await userOrderInfoCollection.insertOne(req.body)
+            const orderPlaceDate=new Date().toLocaleDateString()
+            const userOrder={
+                ...req.body,orderPlaceDate,paymentDate:"payment not clear yet"
+            }
+            const result= await userOrderInfoCollection.insertOne(userOrder)
             res.json(result)
             console.log(result)
         })
 
-        
+
 
     }
     finally{
