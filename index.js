@@ -29,6 +29,7 @@ async function run(){
         const cakeCollection= dataBase.collection('allCake')
         const userOrderInfoCollection= dataBase.collection('userOrder')
         const allUserCollection=dataBase.collection("allUser")
+        const userReviewCollection=dataBase.collection('userReview')
 
 
         // get all cake
@@ -75,6 +76,15 @@ async function run(){
             const options={upsert:true}
             const updateDoc={$set:user};
             const result= await allUserCollection.updateOne(filter,updateDoc,options)
+            res.json(result)
+            console.log(result)
+        })
+
+
+        // post user revire
+        app.post('/userReview',async(req,res)=>{
+            
+            const result=await userReviewCollection.insertOne(req.body)
             res.json(result)
             console.log(result)
         })
