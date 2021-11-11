@@ -28,6 +28,7 @@ async function run(){
         const dataBase= client.db('cakeShop')
         const cakeCollection= dataBase.collection('allCake')
         const userOrderInfoCollection= dataBase.collection('userOrder')
+        const allUserCollection=dataBase.collection("allUser")
 
 
         // get all cake
@@ -56,6 +57,24 @@ async function run(){
                 ...req.body,orderPlaceDate,paymentDate:"payment not clear yet"
             }
             const result= await userOrderInfoCollection.insertOne(userOrder)
+            res.json(result)
+            console.log(result)
+        })
+
+        // all user post/insert email by login
+        app.post('/alluser',async(req,res)=>{
+           
+            const result= await allUserCollection.insertOne(req.body)
+            res.json(result)
+            
+        })
+        //   google by login
+        app.put('/alluser',async(req,res)=>{
+            const user=req.body
+            const filter={email:user.email}
+            const options={upsert:true}
+            const updateDoc={$set:user};
+            const result= await allUserCollection.updateOne(filter,updateDoc,options)
             res.json(result)
             console.log(result)
         })
