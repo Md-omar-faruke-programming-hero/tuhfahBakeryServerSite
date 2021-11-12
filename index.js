@@ -30,6 +30,7 @@ async function run(){
         const userOrderInfoCollection= dataBase.collection('userOrder')
         const allUserCollection=dataBase.collection("allUser")
         const userReviewCollection=dataBase.collection('userReview')
+        
 
 
         // get all cake
@@ -77,7 +78,7 @@ async function run(){
             res.send(result)
 
         })
-        
+
         // user single order get
         app.get('/user/order/:id',async(req,res)=>{
             const id=req.params.id;
@@ -93,7 +94,7 @@ async function run(){
             const query={_id:ObjectId(id)}
             const result= await userOrderInfoCollection.deleteOne(query)
             res.json(result)
-            console.log(result)
+            
         })
 
         
@@ -113,8 +114,37 @@ async function run(){
             const updateDoc={$set:user};
             const result= await allUserCollection.updateOne(filter,updateDoc,options)
             res.json(result)
-            console.log(result)
+            
         })
+
+        // make adimn
+        app.put('/user/admin',async(req,res)=>{
+            const user= req.body
+            const filter={email:user.email}
+            const updateDoc={
+                $set:{
+                    role:"admin"
+                }
+            }
+            const result= await allUserCollection.updateOne(filter,updateDoc)
+            res.json(result)
+            
+        })
+
+        // check admin or not. clint part in usefirebas
+        app.get('/admin/:email',async(req,res)=>{
+            const email=req.params.email
+            const query={email:email}
+            const result=await allUserCollection.findOne(query)
+            let isAdmin=false;
+            if(result?.role === "admin"){
+                isAdmin=true
+            }
+            res.send({admin:isAdmin})
+        })
+       
+
+        
 
 
         // post user review
@@ -130,6 +160,13 @@ async function run(){
             const result= await cursor.toArray()
             res.send(result)
 
+        })
+
+        // add a new product
+        app.post('/addNweProduct',async(req,res)=>{
+            const result=await cakeCollection.insertOne(req.body)
+            res.json(result)
+            console.log(result)
         })
 
 
