@@ -62,6 +62,27 @@ async function run(){
             console.log(result)
         })
 
+
+        // user order get
+        app.get('/user/order',async(req,res)=>{
+            console.log(req.query)
+            let filter={}
+            const email= req.query.email
+            
+            if(email){
+                filter={email:email}
+             }
+           const cursor= userOrderInfoCollection.find(filter)
+            const result= await cursor.toArray()
+            res.send(result)
+
+        })
+        // user single order get
+
+        // user oder delete
+
+        
+
         // all user post/insert email by login
         app.post('/alluser',async(req,res)=>{
            
