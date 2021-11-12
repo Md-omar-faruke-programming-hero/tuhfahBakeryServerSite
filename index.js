@@ -52,14 +52,14 @@ async function run(){
 
         // all user order post
         app.post('/user/order',async(req,res)=>{
-            console.log(req.body)
+            
             const orderPlaceDate=new Date().toLocaleDateString()
             const userOrder={
                 ...req.body,orderPlaceDate,paymentDate:"payment not clear yet"
             }
             const result= await userOrderInfoCollection.insertOne(userOrder)
             res.json(result)
-            console.log(result)
+            
         })
 
 
@@ -77,9 +77,24 @@ async function run(){
             res.send(result)
 
         })
+        
         // user single order get
+        app.get('/user/order/:id',async(req,res)=>{
+            const id=req.params.id;
+            const query={_id:ObjectId(id)}
+            const cursor=userOrderInfoCollection.find(query)
+            const result=await cursor.toArray()
+            res.send(result)
+        })
 
-        // user oder delete
+        // user single oder delete
+        app.delete('/user/order/:id',async(req,res)=>{
+            const id=req.params.id;
+            const query={_id:ObjectId(id)}
+            const result= await userOrderInfoCollection.deleteOne(query)
+            res.json(result)
+            console.log(result)
+        })
 
         
 
