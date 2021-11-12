@@ -81,13 +81,21 @@ async function run(){
         })
 
 
-        // post user revire
+        // post user review
         app.post('/userReview',async(req,res)=>{
             
             const result=await userReviewCollection.insertOne(req.body)
             res.json(result)
-            console.log(result)
+            
         })
+        // get all user review
+        app.get('/userReview',async(req,res)=>{
+            const cursor= userReviewCollection.find({})
+            const result= await cursor.toArray()
+            res.send(result)
+
+        })
+
 
 
 
