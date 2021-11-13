@@ -56,7 +56,7 @@ async function run(){
             const query={_id:ObjectId(id)}
             const result= await cakeCollection.deleteOne(query)
             res.json(result)
-            console.log(result);
+            
         })
 
         // all user order post
@@ -120,7 +120,7 @@ async function run(){
             }
             const result=await userOrderInfoCollection.updateOne(query,updateDoc,options)
             res.json(result)
-            console.log(result)
+            
 
 
 
@@ -195,7 +195,7 @@ async function run(){
         app.post('/addNweProduct',async(req,res)=>{
             const result=await cakeCollection.insertOne(req.body)
             res.json(result)
-            console.log(result)
+            
         })
 
 
