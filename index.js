@@ -50,6 +50,14 @@ async function run(){
             res.send(result)
 
         })
+        // single cake delete
+        app.delete('/cakeDetails/:id',async(req,res)=>{
+            const id=req.params.id;
+            const query={_id:ObjectId(id)}
+            const result= await cakeCollection.deleteOne(query)
+            res.json(result)
+            console.log(result);
+        })
 
         // all user order post
         app.post('/user/order',async(req,res)=>{
