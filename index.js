@@ -105,6 +105,27 @@ async function run(){
             
         })
 
+        // user order update
+        app.put('/user/order/update/:id',async(req,res)=>{
+            
+            const update=req.body
+            
+            const id=req.params.id
+            const query={_id:ObjectId(id)}
+            const options={upsert:true}
+            
+
+            const updateDoc={
+                $set:update
+            }
+            const result=await userOrderInfoCollection.updateOne(query,updateDoc,options)
+            res.json(result)
+            console.log(result)
+
+
+
+        })
+
         
 
         // all user post/insert email by login
