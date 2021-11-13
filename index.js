@@ -178,8 +178,11 @@ async function run(){
 
         // post user review
         app.post('/userReview',async(req,res)=>{
-            
-            const result=await userReviewCollection.insertOne(req.body)
+            const reviewDate=new Date().toLocaleDateString()
+            const useReview={
+                ...req.body,reviewDate
+            }
+            const result=await userReviewCollection.insertOne(useReview)
             res.json(result)
             
         })
